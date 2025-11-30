@@ -17,7 +17,7 @@ st.set_page_config(
 # 它的作用是：只有第一次运行会加载数据和训练模型，后续刷新页面直接用缓存
 # 否则用户每搜一次都要重新训练模型，速度会很慢
 @st.cache_data
-def def 加载数据和模型load_data_and_model():
+def 加载数据和模型load_data_and_model():
     # A. 读取数据
     try:
         df = pd.read_csv("njupt_news_cut.csv", keep_default_na=False)
@@ -110,3 +110,4 @@ if search_btn and query:
         cost = time.time() - start_ts
 
         st.success(f"共找到 {found_count} 条相关结果，耗时 {cost:.4f} 秒")
+
