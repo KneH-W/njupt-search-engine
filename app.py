@@ -17,7 +17,7 @@ st.set_page_config(
 # 它的作用是：只有第一次运行会加载数据和训练模型，后续刷新页面直接用缓存
 # 否则用户每搜一次都要重新训练模型，速度会很慢
 @st.cache_data
-def 加载数据和模型load_data_and_model():
+def load_data_and_model():
     # A. 读取数据
     try:
         df = pd.read_csv("njupt_news_cut.csv", keep_default_na=False)
@@ -38,7 +38,7 @@ df, vectorizer, tfidf_matrix = load_data_and_model()
 # --- 3. 侧边栏 (项目介绍 - 你的简历亮点) ---
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/zh/4/44/Logo_of_NJUPT.svg", width=200)
-    st.   st.markdown("## About This Project")markdown("## 关于本项目")
+    st.markdown("## 关于本项目")
     st.write("这是一个基于 **TF-IDF** 算法的垂直搜索引擎，专为检索南邮校内新闻设计。")
     
     st.markdown("### 🛠️ 技术栈")
@@ -53,11 +53,11 @@ with st.sidebar:
     
 
 # --- 4. 主界面 (UI) ---
-st.title   标题("🎓 南邮校内新闻搜索引擎")
-st.markdown   减价("输入关键词，瞬间找回丢失的校园记忆...")
+st.title("🎓 南邮校内新闻搜索引擎")
+st.markdown("输入关键词，瞬间找回丢失的校园记忆...")
 
 # 检查数据是否加载成功
-if df is None   没有一个:
+if df is None:
     st.error("❌ 错误：找不到 njupt_news_cut.csv！请先运行 Level 2 的清洗脚本。")
     st.stop()
 
@@ -80,18 +80,18 @@ if search_btn and query:
     sorted_indices = sim_scores.argsort()[::-1][:10]
     
     # D. 展示结果
-    st.markdown   减价("### 📊 搜索结果")
+    st.markdown("### 📊 搜索结果")
     
     found_count = 0
-    for idx in   在 sorted_indices:
+    for idx in sorted_indices:
         score = sim_scores[idx]
-        if   如果 score < 0.05: continue # 过滤低相关性
+        if score < 0.05: continue # 过滤低相关性
         
         found_count += 1
         row = df.iloc[idx]
         
         # 使用 Streamlit 的 container 美化展示
-        with   与 st.container():
+        with st.container():
             # 标题带链接
             st.markdown(f"#### [{row['title']}]({row['link']})")
             
@@ -108,6 +108,4 @@ if search_btn and query:
         st.warning(f"没有找到关于 '{query}' 的新闻，换个词试试？")
     else:
         cost = time.time() - start_ts
-
         st.success(f"共找到 {found_count} 条相关结果，耗时 {cost:.4f} 秒")
-
